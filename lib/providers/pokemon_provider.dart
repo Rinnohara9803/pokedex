@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedex/data/models/pokemon.dart';
 import 'package:pokedex/data/models/pokemon_detail_model.dart';
 import 'package:pokedex/data/repositories/pokemon_repo.dart';
-import 'package:pokedex/presentation/resources/strings_manager.dart';
 
 // state notifier for list of pokemons available
 

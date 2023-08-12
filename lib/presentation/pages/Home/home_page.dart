@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -43,11 +42,6 @@ class _HomePageState extends State<HomePage> {
             children: [
               Column(
                 children: [
-                  if (kIsWeb)
-                    Text(
-                      StringsManager.primarySearchTitle,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
                   Text(
                     StringsManager.primarySearchTitle,
                     style: Theme.of(context).textTheme.titleLarge,

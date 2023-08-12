@@ -84,7 +84,6 @@ class PokemonRepo {
     }
 
     await box.close();
-    print(pokeList.length);
     return pokeList;
   }
 }
