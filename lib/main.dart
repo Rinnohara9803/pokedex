@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       final theme = ref.watch(themeProvider);
       return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Pokemon Demo',
+        title: 'Pokedex',
         theme: theme == Themes.dark
             ? getDarkApplicationTheme()
             : getLightApplicationTheme(),

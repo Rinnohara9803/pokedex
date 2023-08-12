@@ -43,7 +43,7 @@ class _PokemonsListState extends State<PokemonsList> {
 
             if (pokemonList.isEmpty) {
               return Center(
-                child: Text(StringsManager.pokemonsNotFound),
+                child: Text(ErrorStrings.pokemonsNotFound),
               );
             } else if (kIsWeb) {
               return SizedBox(

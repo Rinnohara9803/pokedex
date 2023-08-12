@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:pokedex/presentation/pages/Home/pokemons_list.dart';
@@ -31,7 +30,8 @@ class _HomePageState extends State<HomePage> {
               ref.read(themeProvider.notifier).toggleTheme();
             },
             child: Icon(
-                theme == Themes.dark ? Icons.light : Icons.dark_mode_outlined),
+              theme == Themes.dark ? Icons.light : Icons.dark_mode_outlined,
+            ),
           );
         }),
         body: Padding(
@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     decoration: InputDecoration(
                       filled: true,
-                      hintText: 'Search Pokemon',
+                      hintText: StringsManager.searchPokemonLabel,
                       labelStyle: TextStyle(
                         color:
                             theme == Themes.dark ? Colors.white : Colors.black,

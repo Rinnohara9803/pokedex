@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:pokedex/presentation/resources/strings_manager.dart';
 
 class PokemonApi {
   Future<dynamic> fetchListOfPokemons() async {
@@ -12,7 +13,7 @@ class PokemonApi {
 
       return data;
     } else {
-      throw Exception('Failed to fetch data');
+      throw Exception(ErrorStrings.failedToFetch);
     }
   }
 
@@ -22,7 +23,7 @@ class PokemonApi {
       final data = jsonDecode(response.body);
       return data;
     } else {
-      throw Exception('Failed to fetch data');
+      throw Exception(ErrorStrings.failedToFetch);
     }
   }
 }

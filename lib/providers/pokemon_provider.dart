@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedex/data/models/pokemon.dart';
 import 'package:pokedex/data/models/pokemon_detail_model.dart';
 import 'package:pokedex/data/repositories/pokemon_repo.dart';
+import 'package:pokedex/presentation/resources/strings_manager.dart';
 
 // state notifier for list of pokemons available
 
@@ -19,7 +20,6 @@ class PokemonListNotifier extends StateNotifier<List<PokemonDetailsModel>> {
     if (!hasFetched) {
       await pokemonRepo.fetchPokemonListViaHive().then((value) async {
         if (value.isNotEmpty) {
-          log('via hive');
           pokemonList = value
               .map((e) => PokemonDetailsModel(
                   id: e.id, name: e.name, imageUrl: e.imageUrl, types: e.types))
@@ -29,8 +29,6 @@ class PokemonListNotifier extends StateNotifier<List<PokemonDetailsModel>> {
           return;
         }
         await pokemonRepo.fetchListOfPokemons().then((value) async {
-          log('via api');
-
           for (var i in value) {
             await pokemonRepo.fetchPokemonDetails(i.url).then((value) async {
               pokemonList = [...state, value];
@@ -53,12 +51,12 @@ class PokemonListNotifier extends StateNotifier<List<PokemonDetailsModel>> {
                 log('error');
               });
             }).catchError((e) {
-              throw Exception('Failed to fetch data.');
+              throw Exception(e.toString());
             });
           }
           hasFetched = !hasFetched;
         }).catchError((e) {
-          throw Exception('Failed to fetch data.');
+          throw Exception(e.toString());
         });
       });
     }
