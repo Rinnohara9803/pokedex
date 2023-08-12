@@ -20,10 +20,11 @@ class PokemonWidget extends ConsumerWidget {
     final typeNames = details.types.map((type) => type).join(', ');
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => PokemonDetailsPage(pokemonDetails: details),
-          ),
+        Navigator.of(context).pushNamed(
+          PokemonDetailsPage.routeName,
+          arguments: {
+            'details': details,
+          },
         );
       },
       child: Container(

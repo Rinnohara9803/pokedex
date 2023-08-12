@@ -31,7 +31,6 @@ ThemeData getDarkApplicationTheme() {
       titleLarge: TextStyle(
         color: Colors.white,
         fontSize: 25,
-        fontWeight: FontWeight.bold,
       ),
       titleMedium: TextStyle(
         color: Colors.white,
@@ -239,7 +238,7 @@ ThemeData getLightApplicationTheme() {
       prefixIconColor: Colors.grey,
       fillColor: Colors.black12,
       filled: true,
-      labelStyle: TextStyle(
+      labelStyle: const TextStyle(
         color: Colors.white,
       ),
       border: OutlineInputBorder(

@@ -7,45 +7,17 @@ import 'package:pokedex/presentation/pages/Home/pokemons_list.dart';
 import 'package:pokedex/presentation/resources/strings_manager.dart';
 import 'package:pokedex/providers/pokemon_provider.dart';
 
-import '../../../providers/show_title_provider.dart';
 import '../../../providers/theme_provider.dart';
 
-class HomePage extends ConsumerStatefulWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
-  late ScrollController _scrollController;
-
+class _HomePageState extends State<HomePage> {
   final _searchController = TextEditingController();
-  late ShowTitleNotifier showTitleNotifier;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_handleScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_handleScroll);
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  // handle scrollings to hide and show primary-title-text
-  void _handleScroll() {
-    if (_scrollController.position.userScrollDirection ==
-        ScrollDirection.forward) {
-      ref.read(showTitleProvider.notifier).toggleShowTitle(false);
-    } else {
-      ref.read(showTitleProvider.notifier).toggleShowTitle(true);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,31 +41,18 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
           child: Column(
             children: [
-              Consumer(
-                builder: (context, ref, child) {
-                  bool showPrimaryText = ref.watch(showTitleProvider);
-                  return Column(
-                    children: [
-                      // if (kIsWeb)
-                      //   Text(
-                      //     StringsManager.primarySearchTitle,
-                      //     style: Theme.of(context).textTheme.titleLarge,
-                      //   ),
-                      // if (!kIsWeb)
-                      AnimatedContainer(
-                        duration: const Duration(
-                          milliseconds: 300,
-                        ),
-                        curve: Curves.linear,
-                        height: showPrimaryText ? 50 : 0,
-                        child: Text(
-                          StringsManager.primarySearchTitle,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      ),
-                    ],
-                  );
-                },
+              Column(
+                children: [
+                  if (kIsWeb)
+                    Text(
+                      StringsManager.primarySearchTitle,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  Text(
+                    StringsManager.primarySearchTitle,
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 10,
@@ -121,7 +80,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             theme == Themes.dark ? Colors.white : Colors.black,
                         fontSize: 14,
                       ),
-                      prefixIcon: Icon(
+                      prefixIcon: const Icon(
                         Icons.search,
                       ),
                       border: InputBorder.none,
@@ -138,12 +97,10 @@ class _HomePageState extends ConsumerState<HomePage> {
                 },
               ),
               const SizedBox(
-                height: 30,
+                height: 20,
               ),
-              Expanded(
-                child: PokemonsList(
-                  scrollController: _scrollController,
-                ),
+              const Expanded(
+                child: PokemonsList(),
               )
             ],
           ),

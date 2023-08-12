@@ -2,14 +2,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pokedex/data/models/pokemon_detail_model.dart';
-import 'package:pokedex/presentation/pages/Home/widgets/gridview_widget.dart';
+import 'package:pokedex/presentation/pages/Home/widgets/pokemon_widget.dart';
 import 'package:pokedex/presentation/resources/strings_manager.dart';
 import 'package:pokedex/providers/pokemon_provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class PokemonsList extends StatefulWidget {
-  final ScrollController scrollController;
-  const PokemonsList({super.key, required this.scrollController});
+  const PokemonsList({
+    super.key,
+  });
 
   @override
   State<PokemonsList> createState() => _PokemonsListState();
@@ -72,7 +73,6 @@ class _PokemonsListState extends State<PokemonsList> {
       List<PokemonDetailsModel> pokemonList, int crossAxisCount) {
     return GridView.builder(
       shrinkWrap: false,
-      controller: widget.scrollController,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         mainAxisSpacing: 5,
         crossAxisSpacing: 5,
@@ -82,8 +82,8 @@ class _PokemonsListState extends State<PokemonsList> {
       itemCount: pokemonList.length,
       itemBuilder: (context, index) {
         final pokemon = pokemonList[index];
-        return GridViewWidget(
-          pokemonDetails: pokemon,
+        return PokemonWidget(
+          details: pokemon,
         );
       },
     );

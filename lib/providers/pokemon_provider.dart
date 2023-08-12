@@ -1,4 +1,6 @@
+import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:pokedex/data/models/pokemon.dart';
 import 'package:pokedex/data/models/pokemon_detail_model.dart';
 import 'package:pokedex/data/repositories/pokemon_repo.dart';
 
@@ -15,18 +17,49 @@ class PokemonListNotifier extends StateNotifier<List<PokemonDetailsModel>> {
 
   Future<void> loadPokemons() async {
     if (!hasFetched) {
-      await pokemonRepo.fetchListOfPokemons().then((value) async {
-        for (var i in value) {
-          await pokemonRepo.fetchPokemonDetails(i.url).then((value) {
-            pokemonList = [...state, value];
-            state = pokemonList;
-          }).catchError((e) {
-            throw Exception('Failed to fetch data.');
-          });
+      await pokemonRepo.fetchPokemonListViaHive().then((value) async {
+        if (value.isNotEmpty) {
+          log('via hive');
+          pokemonList = value
+              .map((e) => PokemonDetailsModel(
+                  id: e.id, name: e.name, imageUrl: e.imageUrl, types: e.types))
+              .toList();
+          state = pokemonList;
+          hasFetched = !hasFetched;
+          return;
         }
-        hasFetched = !hasFetched;
-      }).catchError((e) {
-        throw Exception('Failed to fetch data.');
+        await pokemonRepo.fetchListOfPokemons().then((value) async {
+          log('via api');
+
+          for (var i in value) {
+            await pokemonRepo.fetchPokemonDetails(i.url).then((value) async {
+              pokemonList = [...state, value];
+              state = pokemonList;
+              await pokemonRepo
+                  .storePokemonsInHiveBox(pokemonList
+                      .map(
+                        (e) => Pokemon(
+                          e.id,
+                          e.name,
+                          e.imageUrl,
+                          e.types,
+                          DateTime.now().millisecondsSinceEpoch,
+                        ),
+                      )
+                      .toList())
+                  .then((value) {
+                log('success');
+              }).catchError((e) {
+                log('error');
+              });
+            }).catchError((e) {
+              throw Exception('Failed to fetch data.');
+            });
+          }
+          hasFetched = !hasFetched;
+        }).catchError((e) {
+          throw Exception('Failed to fetch data.');
+        });
       });
     }
   }
